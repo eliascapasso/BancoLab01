@@ -2,13 +2,16 @@ package dam.isi.frsf.utn.edu.ar;
 
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.view.View;
 import android.widget.Button;
 import android.widget.CheckBox;
+import android.widget.CompoundButton;
 import android.widget.EditText;
 import android.widget.RadioButton;
 import android.widget.SeekBar;
 import android.widget.Switch;
 import android.widget.TextView;
+import android.widget.Toast;
 import android.widget.ToggleButton;
 
 import dam.isi.frsf.utn.edu.ar.modelo.Cliente;
@@ -30,13 +33,15 @@ public class MainActivity extends AppCompatActivity {
     private Switch swAvisarVencimeinto;
     private ToggleButton togAccion;
     private CheckBox chkAceptoTerminos;
+    private TextView tvDiasSeleccionados;
+    private TextView tvMensaje;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
-        pf = new PlazoFijo(getResources().getStringArray(R.array.tasas));
+        pf = new PlazoFijo(getResources().getStringArray(R.array.tasas));                       //TODO: no sabemos si esta bien
         cliente = new Cliente();
 
         // widgets de la vista
@@ -50,8 +55,69 @@ public class MainActivity extends AppCompatActivity {
         swAvisarVencimeinto = (Switch) findViewById(R.id.swAvisarVencimiento);
         togAccion = (ToggleButton) findViewById(R.id.togAccion);
         chkAceptoTerminos = (CheckBox) findViewById(R.id.chkAceptoTerminos);
+        tvDiasSeleccionados = (TextView) findViewById(R.id.tvDiasSeleccionados);
+        tvMensaje = (TextView) findViewById(R.id.tvMensajes);
 
         btnHacerPlazoFijo.setEnabled(false);
         swAvisarVencimeinto.setEnabled(false);
+
+        setSeekBar();
+
+        chkTerminos();
+    }
+
+    public void onClick(View v){
+        tvMensaje.setText("hola");
+    }
+
+    public void chkTerminos(){
+        chkAceptoTerminos.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener()
+        {
+            @Override
+            public void onCheckedChanged(CompoundButton compoundButton, boolean b) {
+                if(!chkAceptoTerminos.isChecked()){
+                    btnHacerPlazoFijo.setEnabled(false);
+                    Toast.makeText(MainActivity.this, "Es obligatorio aceptar las condiciones", Toast.LENGTH_LONG).show();
+                }
+                else{
+                    btnHacerPlazoFijo.setEnabled(true);
+                }
+            }
+        });
+    }
+
+    public void setSeekBar(){
+
+        tvDiasSeleccionados.setText(" " + seekDias.getProgress() );
+
+        //dar valor maximo y minimo a seekbar
+        seekDias.setMin(10);
+        seekDias.setMax(180);
+
+        seekDias.setOnSeekBarChangeListener(new SeekBar.OnSeekBarChangeListener() {
+            @Override
+            public void onProgressChanged(SeekBar seekBar,int i,boolean b)
+            {
+                tvDiasSeleccionados.setText("" + i + " Días");
+
+                //Setea los dias en el plazo fijo
+                pf.setDias(i);
+
+                // actualiza el calculo de los intereses pagados
+                pf.intereses();                                                                 //TODO:los intereses donde los guardamos?
+            }
+
+            @Override
+            public void onStartTrackingTouch(SeekBar seekBar)
+            {
+
+            }
+
+            @Override
+            public void onStopTrackingTouch(SeekBar seekBar)
+            {
+
+            }
+        });
     }
 }

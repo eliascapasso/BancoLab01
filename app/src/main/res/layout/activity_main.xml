@@ -138,14 +138,15 @@
         android:id="@+id/btnHacerPF"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:onClick="onClick"
         android:text="@string/btnHacerPF" />
 
     <TextView
-        android:id="@+id/edtMensajes"
+        android:id="@+id/tvMensajes"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:text="Mensaje de éxito"
         android:layout_weight="1"
-        android:maxLines="6"/>
+        android:maxLines="6"
+        android:text="Mensaje de éxito" />
 
 </LinearLayout>
