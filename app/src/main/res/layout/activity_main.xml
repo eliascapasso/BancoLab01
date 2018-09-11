@@ -144,9 +144,15 @@
     <TextView
         android:id="@+id/tvMensajes"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
+        android:layout_height="35dp"
         android:layout_weight="1"
         android:maxLines="6"
         android:text="Mensaje de éxito" />
+
+    <TextView
+        android:id="@+id/tvMensaje_2"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="TextView" />
 
 </LinearLayout>

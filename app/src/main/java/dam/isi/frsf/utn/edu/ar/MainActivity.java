@@ -1,5 +1,6 @@
 package dam.isi.frsf.utn.edu.ar;
 
+import android.graphics.Color;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.view.View;
@@ -35,6 +36,10 @@ public class MainActivity extends AppCompatActivity {
     private CheckBox chkAceptoTerminos;
     private TextView tvDiasSeleccionados;
     private TextView tvMensaje;
+    private TextView tvMensaje_2;
+
+    private int cantDiasPF = 10;
+    private double monto = 0.0;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -57,6 +62,7 @@ public class MainActivity extends AppCompatActivity {
         chkAceptoTerminos = (CheckBox) findViewById(R.id.chkAceptoTerminos);
         tvDiasSeleccionados = (TextView) findViewById(R.id.tvDiasSeleccionados);
         tvMensaje = (TextView) findViewById(R.id.tvMensajes);
+        tvMensaje_2 = (TextView) findViewById(R.id.tvMensaje_2);
 
         btnHacerPlazoFijo.setEnabled(false);
         swAvisarVencimeinto.setEnabled(false);
@@ -67,7 +73,43 @@ public class MainActivity extends AppCompatActivity {
     }
 
     public void onClick(View v){
-        tvMensaje.setText("hola");
+        if(verificarDatosPlazoFijo()){
+            tvMensaje.setTextColor(Color.GREEN);
+            tvMensaje.setText("El plazo fijo se realizó con éxito");
+            tvMensaje_2.setTextColor(Color.BLUE);
+            tvMensaje_2.setText("Dias: " + cantDiasPF +
+                    "\nMonto: " + edtMonto.getText().toString());
+        }
+        else{
+            tvMensaje.setTextColor(Color.RED);
+            tvMensaje.setText("Los datos ingresados son incorrectos");
+
+            tvMensaje_2.setText("");
+
+            Toast.makeText(this, "Datos inválidos", Toast.LENGTH_SHORT).show();
+        }
+    }
+
+    private boolean verificarDatosPlazoFijo(){
+        boolean verificacionExitosa = true;
+        if((edtMail.getText().toString().length() == 0) || edtMail == null){
+            verificacionExitosa = false;
+        }
+
+        if(edtCuit.getText().toString().length() == 0 || edtCuit == null){
+            verificacionExitosa = false;
+        }
+
+        monto = Double.parseDouble(edtMonto.getText().toString());
+        if(monto == 0.0){
+            verificacionExitosa = false;
+        }
+
+        if((cantDiasPF < 10)){
+            verificacionExitosa = false;
+        }
+
+        return verificacionExitosa;
     }
 
     public void chkTerminos(){
@@ -98,6 +140,7 @@ public class MainActivity extends AppCompatActivity {
             @Override
             public void onProgressChanged(SeekBar seekBar,int i,boolean b)
             {
+                cantDiasPF = i;
                 tvDiasSeleccionados.setText("" + i + " Días");
 
                 //Setea los dias en el plazo fijo
@@ -110,13 +153,13 @@ public class MainActivity extends AppCompatActivity {
             @Override
             public void onStartTrackingTouch(SeekBar seekBar)
             {
-
+                //No hacer nada
             }
 
             @Override
             public void onStopTrackingTouch(SeekBar seekBar)
             {
-
+                //No hacer nada
             }
         });
     }
