@@ -100,7 +100,7 @@ public class MainActivity extends AppCompatActivity {
             verificacionExitosa = false;
         }
 
-        monto = Double.parseDouble(edtMonto.getText().toString());
+        monto = Double.parseDouble(edtMonto.getText().toString()); //TODO: No funciona cuando está en NULL
         if(monto == 0.0){
             verificacionExitosa = false;
         }
@@ -147,7 +147,7 @@ public class MainActivity extends AppCompatActivity {
                 pf.setDias(i);
 
                 // actualiza el calculo de los intereses pagados
-                pf.intereses();                                                                 //TODO:los intereses donde los guardamos?
+                pf.intereses();                                                                 //TODO: los intereses donde los guardamos?
             }
 
             @Override
