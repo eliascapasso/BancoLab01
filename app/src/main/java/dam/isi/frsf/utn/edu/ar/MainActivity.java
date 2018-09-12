@@ -23,6 +23,9 @@ public class MainActivity extends AppCompatActivity {
     private PlazoFijo pf;
     private Cliente cliente;
 
+    //Probando git
+
+
     // widgets de la vista
     private Button btnHacerPlazoFijo;
     private EditText edtMonto;
